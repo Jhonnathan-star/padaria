@@ -29,13 +29,18 @@ def inserir_telas(conn):
     telas_fina_manha = int(input("Telas fina manhã: "))
 
     if domingo_ou_feriado:
-        sql = """
-            INSERT INTO telas (data, semana, telas_grossa_manha, telas_fina_manha)
-            VALUES (%s, %s, %s, %s)
-        """
-        valores = (data_str, semana, telas_grossa_manha, telas_fina_manha)
         telas_grossa_tarde = 0
         telas_fina_tarde = 0
+
+        sql = """
+            INSERT INTO telas (
+                data, semana,
+                telas_grossa_manha, telas_grossa_tarde,
+                telas_fina_manha, telas_fina_tarde
+            )
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        valores = (data_str, semana, telas_grossa_manha, telas_grossa_tarde, telas_fina_manha, telas_fina_tarde)
     else:
         try:
             telas_grossa_tarde = int(input("Telas grossa tarde: ") or 0)
@@ -45,7 +50,11 @@ def inserir_telas(conn):
             return None
 
         sql = """
-            INSERT INTO telas (data, semana, telas_grossa_manha, telas_grossa_tarde, telas_fina_manha, telas_fina_tarde)
+            INSERT INTO telas (
+                data, semana,
+                telas_grossa_manha, telas_grossa_tarde,
+                telas_fina_manha, telas_fina_tarde
+            )
             VALUES (%s, %s, %s, %s, %s, %s)
         """
         valores = (data_str, semana, telas_grossa_manha, telas_grossa_tarde, telas_fina_manha, telas_fina_tarde)
@@ -64,12 +73,12 @@ def inserir_telas(conn):
         print("👋 Não inserindo dados na tabela 'horarios'. Encerrando o processo.")
         return None
 
+
 def ver_e_alterar_telas_por_data(conn):
     cursor = conn.cursor()
     data_input = input("Digite a data que deseja consultar (formato: AAAA-MM-DD): ").strip()
 
     try:
-        # Tenta converter a data para garantir o formato
         data_formatada = datetime.strptime(data_input, "%Y-%m-%d").date()
     except ValueError:
         print("Data inválida. Use o formato AAAA-MM-DD.")
