@@ -6,7 +6,7 @@ def conectar():
         conn = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='25242015',
+            password='xxxxxx',
             database='padaria'
         )
         if conn.is_connected():
